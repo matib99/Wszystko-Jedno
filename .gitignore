@@ -1,0 +1,8 @@
+.env
+*.wav
+__pycache__
+venv
+*.mp3
+*.pt
+*.bin
+models/XTTS-v2
