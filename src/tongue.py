@@ -26,7 +26,7 @@ def play_audio_queue(waveform, stream, data_index):
     print(playing)
     end_index = data_index*CHUNK + CHUNK
     # Convert the tensor slice to bytes and write to the stream
-    data = wav[data_index:end_index].tobytes()
+    data = wav[data_index*CHUNK:end_index].tobytes()
     stream.write(data)
 
 def play_audio_full(waveform, stream):
