@@ -1,10 +1,12 @@
 from ctypes import *
-from contextlib import contextmanager
+from contextlib import contextmanager, redirect_stderr
 import torch
 from transformers import pipeline
 import optimum #maybe can be omitted, idk
 import speech_recognition as sr
+import os
 from sys import platform
+import numpy as np
 
 ERROR_HANDLER_FUNC = CFUNCTYPE(None, c_char_p, c_int, c_char_p, c_int, c_char_p)
 
@@ -20,6 +22,12 @@ def noalsaerr():
     yield
     asound.snd_lib_error_set_handler(None)
 
+@contextmanager
+def suppress_jack_errors():
+    with open(os.devnull, 'w') as devnull:
+        with redirect_stderr(devnull):
+            yield
+
 class VoiceInput():
     def __init__(self, whisper_model='small', non_english=False, energy_treshold=1000, default_mic='pulse', record_timeout=2, phrase_timeout=3, pause_threshold=1.5):
         self.recorder = sr.Recognizer()
@@ -29,11 +37,11 @@ class VoiceInput():
         self.recorder.pause_threshold = 1.5
 
         self.pipe = pipeline("automatic-speech-recognition",
-                "./whisper-model/",
+                "./models/whisper-model/",
                 torch_dtype=torch.float32,
                 device="cpu")
 
-        with noalsaerr(): #prevents some unimportant errors from being printed
+        with noalsaerr(), suppress_jack_errors(): #prevents some unimportant errors from being printed
             if 'linux' in platform:
                 mic_name = default_mic
                 if not mic_name or mic_name == 'list':
@@ -60,7 +68,12 @@ class VoiceInput():
     
     def get_phrase(self):
         with noalsaerr(), self.source:
-            data = self.recorder.listen(self.source)
+            audio = self.recorder.listen(self.source)
+        
+        #transcribing audio to readable float32 format
+        audio_np = np.frombuffer(audio.frame_data,dtype="int16")
+        data = audio_np.astype(np.float32) / np.iinfo("int16").max
+
         print("\nVoice recorded, now transcribing\n")
         
         #converting to float32 recognizable by insanely fast whisper
@@ -71,10 +84,10 @@ class VoiceInput():
         audio = {
             "path": None,
             "array": data,
-            "sampling_rate": sample_rate        
+            "sampling_rate": 16000        
         }
 
-        outputs = pipe(audio)
+        outputs = self.pipe(audio)
 
         return outputs["text"]
 

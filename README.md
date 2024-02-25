@@ -28,23 +28,34 @@ curl -fsSL https://ollama.com/install.sh | sh
 easy way to deploy the code is to use conda environment. Provided conda is installed it is sufficient to use following snippet:
 
 ```bash
+conda create -n Your_Personal_God --file requirements.txt
+```
+
+or more explicitly (may be buggy):
+
+```bash
 conda create -n Your_Personal_God python==3.10.13
 conda activate Your_Personal_God
 conda install -c conda-forge libstdcxx-ng
-pip install -r requirements.txt
+pip install -r requirements1.txt
 ```
 
 to use XTTS [this](https://huggingface.co/coqui/XTTS-v2/tree/main) repository should be cloned into "models" directory
+
+## Running and testing
+
+After propper installation every example from "examples" directory should work flawlessly. testing them all before main file is advised.
 
 ## To Do
 
 - [x] constructing and testing example files
 - [x] constructing full software, publishing repository
-- [ ] deploying full software on testing device (CPU only)
+- [X] deploying full software on testing device (CPU only)
 - [ ] writing documentation for each function and class
 - [ ] deploying software on another device
 - [ ] testing software on CUDA compatible machine
 - [ ] finetuning models to suit our needs
+- [ ] writing all paths in terms of absolute repository paths
 
 ## Appendix
 

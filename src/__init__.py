@@ -8,6 +8,7 @@ from .tongue import play_audio_full
 from .tongue import compute_latents
 from .tongue import stream_loop
 from .tongue import prepare_the_voice
+from .tongue import prepare_the_stream
 
 from .ear import VoiceInput
 
@@ -23,6 +24,7 @@ class Tongue:
         self.compute_latents = compute_latents
         self.stream_loop = stream_loop
         self.prepare_the_voice = prepare_the_voice
+        self.prepare_the_stream = prepare_the_stream
 
 class Mind:
     def __init__(self):

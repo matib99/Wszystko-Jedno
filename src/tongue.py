@@ -35,13 +35,13 @@ def play_audio_full(waveform, stream):
     data = wav.tobytes()
     stream.write(data)
 
-def compute_latents(sample="./samples/sample.wav"):
+def compute_latents(model, sample="./samples/sample.wav"):
     print("Computing speaker latents...")
-    gpt_cond_latent, speaker_embedding = model.get_conditioning_latents(audio_path=["./polska_próbka.wav"])
+    gpt_cond_latent, speaker_embedding = model.get_conditioning_latents(audio_path=[sample])
     return gpt_cond_latent, speaker_embedding
 
 
-def stream_loop(gpt_cond_latent, speaker_embedding, stream, text="sample", language="en", play_live = True):
+def stream_loop(model, gpt_cond_latent, speaker_embedding, stream, text="sample", language="en", play_live = True):
     print("opening stream\n\n")
     print("\n\nInference...")
     t0 = time.time()
@@ -75,3 +75,11 @@ def prepare_the_voice(model_path="./models/XTTS-v2"):
     model = Xtts.init_from_config(config)
     model.load_checkpoint(config, checkpoint_dir=f"{model_path}", use_deepspeed=False) #if set to true requires CUDA_HOME variable, doesn't seem to work on CPU but deepspeed alone can be used with it. To be explored.
     return model
+
+def prepare_the_stream():
+    p = pyaudio.PyAudio()
+    stream = p.open(format=sample_format,
+                    channels=channels,
+                    rate=sample_rate,
+                    output=True)
+    return p, stream

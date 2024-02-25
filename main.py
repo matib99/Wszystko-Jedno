@@ -11,25 +11,22 @@ if __name__ == "__main__":
         non_english=False,
         energy_treshold=1000,
         #default_mic='Blue Snowball: USB Audio (hw:1,0)',
-        default_mic="default",
+        default_mic="SM900T Microphone: USB Audio (hw:3,0)",
         # record_timeout=2,
         # phrase_timeout=3,
         pause_threshold=2
     )
 
     print("Preparing text generation...")
-    mind.prepare_the_will()
+    llm = mind.prepare_the_will()
 
     print("Preparing audio generation...")
-    model = tongue.prepare_the_voice()
+    audio_model = tongue.prepare_the_voice()
 
     print("Opening audio generation stream...")
-    p = pyaudio.PyAudio()
-    stream = p.open(format=sample_format,
-                    channels=channels,
-                    rate=sample_rate,
-                    output=True)
-    gpt_cond_latent, speaker_embedding = compute_latents("./polska_próbka.wav")
+    p, stream = tongue.prepare_the_stream()
+    
+    gpt_cond_latent, speaker_embedding = tongue.compute_latents(audio_model, "./samples/sample.wav")
 
     while True:
         if write_question:
@@ -37,15 +34,21 @@ if __name__ == "__main__":
         else:
             print("make thyself heard")
             human_sentence = vinput.get_phrase()
-            print(f"Thine words resound! Thou exclaimed what follows:\n\t{human_sentence}")
+            print(f"Alas! Thine words resound! Thou exclaimed thusly:\n\t{human_sentence}")
         
         if human_sentence=="end":
             break
 
-        response = mind.thrust_thy_words_static(human_sentence)
+        response = mind.thrust_and_hear(llm, human_sentence)
 
+        #printing the response sentence by sentence
+        print("\nIt beared thee the fruit:\n")
+        for i in response:
+            print(i)
+        
         #transforming response to voice
-        tongue.stream_loop(gpt_cond_latent, speaker_embedding, stream, text="response", language="pl", play_live=False)
+        for text in response:
+            tongue.stream_loop(audio_model, gpt_cond_latent, speaker_embedding, stream, text=text, language="en", play_live=False)
 
 
     print("closing stream")
@@ -53,3 +56,6 @@ if __name__ == "__main__":
     stream.close()
 
     p.terminate()
+
+    #closes ollama process
+    run_bash_command("pgrep ollama | xargs kill", shell=True)

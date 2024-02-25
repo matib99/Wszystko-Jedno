@@ -6,3 +6,5 @@ venv
 *.pt
 *.bin
 models/XTTS-v2
+models/*
+temp*

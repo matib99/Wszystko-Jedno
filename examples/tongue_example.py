@@ -74,10 +74,10 @@ if __name__=="__main__":
     #opening model (from https://huggingface.co/coqui/XTTS-v2)
     print("Loading model...")
     config = XttsConfig()
-    config.load_json("./XTTS-v2/config.json")
+    config.load_json("../models/XTTS-v2/config.json")
 
     model = Xtts.init_from_config(config)
-    model.load_checkpoint(config, checkpoint_dir="./XTTS-v2/", use_deepspeed=False) #if set to true requires CUDA_HOME variable, doesn't seem to work on CPU but deepspeed alone can be used with it. To be explored.
+    model.load_checkpoint(config, checkpoint_dir="../models/XTTS-v2/", use_deepspeed=False) #if set to true requires CUDA_HOME variable, doesn't seem to work on CPU but deepspeed alone can be used with it. To be explored.
 
     print("opening stream")
     p = pyaudio.PyAudio()
@@ -91,6 +91,7 @@ if __name__=="__main__":
     gpt_cond_latent, speaker_embedding = compute_latents("../samples/sample.wav")
 
     stream_loop(gpt_cond_latent, speaker_embedding, stream, text="puritanic cows drop the ball into the pool of tears", language="en", play_live=False) #play_live should be set to True whenever audio generates faster than it lasts
+    #stream_loop(gpt_cond_latent, speaker_embedding, stream, text="purytańskie krowy wodują kule w baseny łez", language="pl", play_live=False)
 
 
 
