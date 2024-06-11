@@ -9,12 +9,25 @@ from .tongue import compute_latents
 from .tongue import stream_loop
 from .tongue import prepare_the_voice
 from .tongue import prepare_the_stream
+#extra
+from .tongue import play_input_signal
 
+# no separate class
 from .ear import VoiceInput
 
 from .mind import prepare_the_will
 from .mind import thrust_thy_words_static
 from .mind import thrust_and_hear
+
+# no separate class
+#from .evolution import apply_volume_changes
+#from .evolution import normalize_audio
+#from .evolution import apply_fmask
+#from .evolution import normalize_audio_rms
+#from .evolution import apply_three
+#from .evolution import insert_audio_segment
+#from .evolution import select_random_filename
+from .evolution import edit_sample
 
 class Tongue:
     def __init__(self):
@@ -34,3 +47,5 @@ class Mind:
 
 tongue = Tongue()
 mind = Mind()
+
+

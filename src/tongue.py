@@ -6,6 +6,7 @@ from TTS.tts.configs.xtts_config import XttsConfig
 from TTS.tts.models.xtts import Xtts
 import numpy as np
 import pyaudio
+from pydub import AudioSegment
 
 
 #constants:
@@ -83,3 +84,18 @@ def prepare_the_stream():
                     rate=sample_rate,
                     output=True)
     return p, stream
+
+def play_input_signal(stream, file_path, volume=1):
+    # Load your audio file
+    audio = AudioSegment.from_mp3(file_path)
+
+    # Adjust volume
+    audio = audio + (20 * np.log10(volume))  # Convert volume to decibel
+
+    # Convert AudioSegment to raw audio data
+    chunk_size = 1024
+    data = np.frombuffer(audio.raw_data, dtype=np.int16)
+
+    # Play each chunk
+    for i in range(0, len(data), chunk_size):
+        stream.write(data[i:i+chunk_size].tobytes())
