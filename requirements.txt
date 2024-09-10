@@ -45,3 +45,4 @@ tensorboard-data-server=0.7.2=pypi_0
 typing-extensions=4.9.0=pypi_0
 typing-inspect=0.9.0=pypi_0
 umap-learn=0.5.5=pypi_0
+paramiko=3.4.1=pypi_0
