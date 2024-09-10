@@ -76,6 +76,8 @@ If you encounter problems with that task, you may consult [this thread](https://
 
 If you can't resolve the problems you might need to run everything locally OR change files so that you automatically copy recorded voice and translate it on the server (I can do that for you if that will be too challenging).
 
+<span style="color:red"> *WARNING!* </span> You may have to change the default device name in ./src/ear.py to name of microphone that is shown by "arecord -l" command. 
+
 After you moved the audio streams you should do the following: clone the repository locally and on the server, then run "local_mind_ssh.py" locally and "server_vocal_ssh.py" on your server. The communication is as follows:
 
 1. server_vocal.py (Remote Server):
