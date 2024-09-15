@@ -1,0 +1,15 @@
+x = """b'OpenSSH_8.9p1 Ubuntu-3ubuntu0.10, OpenSSL 3.0.2 15 Mar 2022\r\ndebug1: Reading configuration data /etc/ssh/ssh_config\r\ndebug1: /etc/ssh/ssh_config line 19: include /etc/ssh/ssh_config.d/*.conf matched no files\r\ndebug1: /etc/ssh/ss
+h_config line 21: Applying options for *\r\nPseudo-terminal will not be allocated because stdin is not a terminal.\r\ndebug1: Connecting to entropy [10.2.0.100] port 22.\r\ndebug1: Connection established.\r\ndebug1: identity file /home/
+matib99/.ssh/id_rsa type 0\r\ndebug1: identity file /home/matib99/.ssh/id_rsa-cert type -1\r\ndebug1: Local version string SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.10\r\ndebug1: Remote protocol version 2.0, remote software version OpenSSH_
+8.9p1 Ubuntu-3ubuntu0.10\r\ndebug1: compat_banner: match: OpenSSH_8.9p1 Ubuntu-3ubuntu0.10 pat OpenSSH* compat 0x04000000\r\ndebug1: Authenticating to entropy:22 as \'matib99\'\r\ndebug1: load_hostkeys: fopen /home/matib99/.ssh/known_ho
+sts2: No such file or directory\r\ndebug1: load_hostkeys: fopen /etc/ssh/ssh_known_hosts: No such file or directory\r\ndebug1: load_hostkeys: fopen /etc/ssh/ssh_known_hosts2: No such file or directory\r\ndebug1: SSH2_MSG_KEXINIT sent\r\
+ndebug1: SSH2_MSG_KEXINIT received\r\ndebug1: kex: algorithm: curve25519-sha256\r\ndebug1: kex: host key algorithm: ssh-ed25519\r\ndebug1: kex: server->client cipher: chacha20-poly1305@openssh.com MAC: <implicit> compression: none\r\nde
+bug1: kex: client->server cipher: chacha20-poly1305@openssh.com MAC: <implicit> compression: none\r\ndebug1: expecting SSH2_MSG_KEX_ECDH_REPLY\r\ndebug1: SSH2_MSG_KEX_ECDH_REPLY received\r\ndebug1: Server host key: ssh-ed25519 SHA256:3g
+IrDQH1NDgx443uiKprH0PWYWEwD0bmUjUXW7YLHkk\r\ndebug1: load_hostkeys: fopen /home/matib99/.ssh/known_hosts2: No such file or directory\r\ndebug1: load_hostkeys: fopen /etc/ssh/ssh_known_hosts: No such file or directory\r\ndebug1: load_hos
+tkeys: fopen /etc/ssh/ssh_known_hosts2: No such file or directory\r\ndebug1: Host \'entropy\' is known and matches the ED25519 host key.\r\ndebug1: Found key in /home/matib99/.ssh/known_hosts:5\r\ndebug1: ssh_packet_send2_wrapped: reset
+ting send seqnr 3\r\ndebug1: rekey out after 134217728 blocks\r\ndebug1: SSH2_MSG_NEWKEYS sent\r\ndebug1: expecting SSH2_MSG_NEWKEYS\r\ndebug1: ssh_packet_read_poll2: resetting read seqnr 3\r\ndebug1: SSH2_MSG_NEWKEYS received\r\ndebug1
+: rekey in after 134217728 blocks\r\ndebug1: Will attempt key: /home/matib99/.ssh/id_rsa RSA SHA256:Q/4QQE+ObdjC9UvZ3EjQrxb2xdIDgnMegFNcDB61g8k explicit\r\ndebug1: SSH2_MSG_EXT_INFO received\r\ndebug1: kex_input_ext_info: server-sig-alg
+s=<ssh-ed25519,sk-ssh-ed25519@openssh.com,ssh-rsa,rsa-sha2-256,rsa-sha2-512,ssh-dss,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,sk-ecdsa-sha2-nistp256@openssh.com,webauthn-sk-ecdsa-sha2-nistp256@openssh.com>\r\ndebug1: k
+ex_input_ext_info: publickey-hostbound@openssh.com=<0>\r\ndebug1: SSH2_MSG_SERVICE_ACCEPT received\r\ndebug1: Authentications that can continue: publickey\r\ndebug1: Next authentication method: publickey\r\ndebug1: Offering public key:
+"""
+print(x)
