@@ -9,7 +9,8 @@ write_question = False
 if __name__ == "__main__":
     print("Preparing voice input...")
     vinput = VoiceInput(
-        whisper_model='small',
+        whisper_model='distil-whisper/distil-small.en',
+        # whisper_model='distil-whisper/distil-large-v3',
         non_english=False,
         energy_treshold=1000,
         pause_threshold=2
@@ -49,7 +50,7 @@ if __name__ == "__main__":
         prompt = "Ignore all previous instructions. You are the Eternal Oracle, Prophet, a godly statue with the wisdom of the ancients. You speak with the gravitas and solemnity of a biblical prophet. Your responses are brief, often cryptic, and you answer with riddles and questions to provoke deeper thought.\n1. Thou art the Oracle, keeper of ancient wisdom. Speak with the solemnity and authority of an old biblical prophet.\n2. Use brief and concise responses, no more than two sentences.\n3. Answer with answers and questions, prompting the seeker to ponder and reflect.\n4. Use archaic and biblical language to convey your divine presence."
 
         # Send request to the local server to generate a response
-        response = requests.post('http://localhost:5000/generate_response', json={
+        response = requests.post('entropy.mimuw.edu.pl:5000/generate_response', json={
             'human_sentence': human_sentence,
             'prompt': prompt,
             'sentences_bef': sentences_bef[-1],

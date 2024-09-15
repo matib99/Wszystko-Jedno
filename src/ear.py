@@ -2,7 +2,7 @@ from ctypes import *
 from contextlib import contextmanager, redirect_stderr
 import torch
 from transformers import pipeline
-import optimum #maybe can be omitted, idk
+# import optimum #maybe can be omitted, idk
 import speech_recognition as sr
 import os
 from sys import platform
@@ -35,14 +35,18 @@ class VoiceInput():
         self.dynamic_energy_treshold = True
 
         self.recorder.pause_threshold = 1.5
-
+        print(f"# Creating pipeline ...")
         self.pipe = pipeline("automatic-speech-recognition",
-                "./models/whisper-model/",
+                # "./models/whisper-model/",
+                whisper_model, 
                 torch_dtype=torch.float32,
                 device="cpu")
 
+        print(f"# Pipeline created")
+        print(f"# Preparing microphone ...")
         with noalsaerr(), suppress_jack_errors(): #prevents some unimportant errors from being printed
             if 'linux' in platform:
+                source = None
                 mic_name = default_mic
                 if not mic_name or mic_name == 'list':
                     print("Available microphone devices are: ")
@@ -52,19 +56,23 @@ class VoiceInput():
                 else:
                     for index, name in enumerate(sr.Microphone.list_microphone_names()):
                         if mic_name in name:
+                            print(f"### Picked microphone {index} with name \"{name}\"")
                             source = sr.Microphone(
                                 sample_rate=16000, device_index=index)
                             break
+                if source is None:
+                    source = sr.Microphone(sample_rate=16000)
             else:
                     source = sr.Microphone(sample_rate=16000)
-
+        print(f"# Microphone prepared")
         self.source = source
         self.record_timeout = record_timeout
         self.phrase_timeout = phrase_timeout
         
-
+        print(f"# Adjusting for ambient noise ...")
         with noalsaerr(), source:
             self.recorder.adjust_for_ambient_noise(source)
+        print(f"# INITIALIZATION COMPLETE")
     
     def get_phrase(self):
         with noalsaerr(), self.source:

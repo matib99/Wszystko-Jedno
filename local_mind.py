@@ -3,6 +3,9 @@ from src import mind
 
 app = Flask(__name__)
 
+llm = mind.prepare_the_will()
+print("LLM prepared")
+
 @app.route('/generate_response', methods=['POST'])
 def generate_response():
     data = request.json
@@ -14,7 +17,7 @@ def generate_response():
     if not human_sentence or not prompt or sentences_bef is None or responses_bef is None:
         return jsonify({"error": "Invalid input"}), 400
     
-    llm = mind.prepare_the_will()
+    # llm = mind.prepare_the_will()
     response = mind.thrust_and_hear(llm, human_sentence, prompt, sentences_bef, responses_bef)
     
     return jsonify({"response": response})

@@ -1,9 +1,10 @@
-import os
+# import os
 import time
-import torch
-import torchaudio
+# import torch
+# import torchaudio
 from TTS.tts.configs.xtts_config import XttsConfig
 from TTS.tts.models.xtts import Xtts
+# from TTS.api import TTS
 import numpy as np
 import pyaudio
 from pydub import AudioSegment
@@ -24,7 +25,7 @@ def audio_time(wav_chuncks):
 
 def play_audio_queue(waveform, stream, data_index):
     wav = waveform.cpu().numpy().astype(np.float32)
-    print(playing)
+    print('playing')
     end_index = data_index*CHUNK + CHUNK
     # Convert the tensor slice to bytes and write to the stream
     data = wav[data_index*CHUNK:end_index].tobytes()
@@ -69,12 +70,14 @@ def stream_loop(model, gpt_cond_latent, speaker_embedding, stream, text="sample"
     print(f"time = {aTime}s") 
     return 
 
-def prepare_the_voice(model_path="./models/XTTS-v2"):
+def prepare_the_voice(model_path="./models/XTTS-v2", device=None):
     config = XttsConfig()
     config.load_json(f"{model_path}/config.json")
 
     model = Xtts.init_from_config(config)
     model.load_checkpoint(config, checkpoint_dir=f"{model_path}", use_deepspeed=False) #if set to true requires CUDA_HOME variable, doesn't seem to work on CPU but deepspeed alone can be used with it. To be explored.
+    if device is not None:
+        model.to(device)
     return model
 
 def prepare_the_stream():

@@ -218,7 +218,7 @@ def select_random_filename(directory):
 def edit_sample(filename, temperature, number_of_inserts, number_of_appends):
     sample_rate, data = wavfile.read(f'./samples/{filename}')
     data = data.astype(np.float32)
-    masked_data = apply_three(data, sample_rate, temperature = 10)
+    masked_data = apply_three(data, sample_rate, temperature = temperature)
     fully_edited_data = masked_data
     int_data = np.int16((fully_edited_data + 1.0) * 32767.5 - 32768)
     wavfile.write(f'./samples/evolved_{filename}', sample_rate, int_data)

@@ -1,4 +1,5 @@
 from langchain_community.llms import Ollama
+from transformers import pipeline
 import subprocess
 import time
 
@@ -29,11 +30,23 @@ def prepare_the_will():
     #time.sleep(5)
     return llm
 
+def prepare_the_bielik():
+    pipe = pipeline("text-generation", model="speakleash/Bielik-11B-v2")
+    return pipe
+
+
+def close_ollama():
+    run_bash_command("pgrep ollama | xargs kill", shell=True)
+
 def thrust_thy_words_static(llm, text, prompt, previous_sentence, previous_response):
 
     # Construct the conversation history with the most recent previous sentence and response
-    if previous_sentence and previous_response:
-        conversation_history = f"{previous_sentence}\n{previous_response}\n"
+    if isinstance(previous_sentence, list) and isinstance(previous_response, list):
+        conversation_history = ""
+        for i in range(len(previous_sentence)):
+            conversation_history += f"User: {previous_sentence[i]}\nProphet: {previous_response[i]}\n"
+    elif previous_sentence and previous_response:
+        conversation_history = f"User: {previous_sentence}\nProphet: {previous_response}\n"
     else:
         conversation_history = ""
 
@@ -55,7 +68,11 @@ def thrust_thy_words_static(llm, text, prompt, previous_sentence, previous_respo
 def thrust_and_hear(llm, text, prompt, previous_sentence, previous_response):
 
     # Construct the conversation history with the most recent previous sentence and response
-    if previous_sentence and previous_response:
+    if isinstance(previous_sentence, list) and isinstance(previous_response, list):
+        conversation_history = ""
+        for i in range(len(previous_sentence)):
+            conversation_history += f"User: {previous_sentence[i]}\nProphet: {previous_response[i]}\n"
+    elif previous_sentence and previous_response:
         conversation_history = f"User: {previous_sentence}\nProphet: {previous_response}\n"
     else:
         conversation_history = ""

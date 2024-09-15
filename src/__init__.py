@@ -15,18 +15,18 @@ from .tongue import play_input_signal
 # no separate class
 from .ear import VoiceInput
 
-from .mind import prepare_the_will
-from .mind import thrust_thy_words_static
-from .mind import thrust_and_hear
+# from .mind import prepare_the_will
+# from .mind import thrust_thy_words_static
+# from .mind import thrust_and_hear
 
 # no separate class
-#from .evolution import apply_volume_changes
-#from .evolution import normalize_audio
-#from .evolution import apply_fmask
-#from .evolution import normalize_audio_rms
-#from .evolution import apply_three
-#from .evolution import insert_audio_segment
-#from .evolution import select_random_filename
+from .evolution import apply_volume_changes
+from .evolution import normalize_audio
+from .evolution import apply_fmask
+from .evolution import normalize_audio_rms
+from .evolution import apply_three
+from .evolution import insert_audio_segment
+from .evolution import select_random_filename
 from .evolution import edit_sample
 
 class Tongue:
@@ -39,13 +39,13 @@ class Tongue:
         self.prepare_the_voice = prepare_the_voice
         self.prepare_the_stream = prepare_the_stream
 
-class Mind:
-    def __init__(self):
-        self.prepare_the_will = prepare_the_will
-        self.thrust_thy_words_static = thrust_thy_words_static
-        self.thrust_and_hear = thrust_and_hear
+# class Mind:
+#     def __init__(self):
+#         self.prepare_the_will = prepare_the_will
+#         self.thrust_thy_words_static = thrust_thy_words_static
+#         self.thrust_and_hear = thrust_and_hear
 
 tongue = Tongue()
-mind = Mind()
+# mind = Mind()
 
 
